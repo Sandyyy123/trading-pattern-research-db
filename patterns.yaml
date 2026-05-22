@@ -1,0 +1,26 @@
+# patterns.yaml - define pattern conditions without changing code
+patterns:
+  - id: rsi_oversold_atr_expand
+    label: "RSI crosses 30 upward with ATR expansion"
+    conditions:
+      - indicator: rsi_14
+        crosses_above: 30
+      - indicator: atr_14
+        greater_than_rolling_multiple:
+          col: atr_14
+          window: 20
+          multiplier: 1.2
+    outcome_windows: [5, 10, 20]
+    win_threshold_pct: 1.0
+    regime_filter: null
+
+  - id: ema21_reclaim_bullish
+    label: "Close reclaims 21 EMA on bullish candle"
+    conditions:
+      - indicator: close
+        crosses_above_col: ema_21
+      - indicator: close
+        greater_than_col: open
+    outcome_windows: [5, 10, 20]
+    win_threshold_pct: 1.0
+    regime_filter: uptrend
